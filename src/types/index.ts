@@ -24,7 +24,14 @@ export type CardsState = {
 
 export type CardProps = {
   cardData: UniqueCardData;
-  onClick: () => void;
+  onClick: (card: UniqueCardData) => void;
+}
+
+export type GameState = {
+  currentScore: number;
+  bestScore: number;
+  clickedCardsID: string[];
+  status: 'playing' | 'win' | 'lose';
 }
 
 

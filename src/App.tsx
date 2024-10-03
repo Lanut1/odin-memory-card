@@ -2,18 +2,26 @@ import { useEffect } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardsAndQuotes } from './utils/api';
-import { getCardsData } from './utils/selectors';
+import { getCardsData, getGameStatus } from './utils/selectors';
 import { Card } from './components/Card';
 import { AppDispatch } from './store';
 import { TOTAL_QUOTES } from './constants';
+import { handleClickedCard } from './store/gameSlice';
+import { UniqueCardData } from './types';
+import { Header } from './components/Header';
+import { Results } from './components/Results';
 
 function App() {
-
-  const handleCardClick = () => {
-    console.log("click!")
-  }
-
   const dispatch = useDispatch<AppDispatch>();
+
+  const gameStatus = useSelector(getGameStatus);
+
+  const handleCardClick = (card: UniqueCardData) => {
+    if (gameStatus !== 'playing') return;
+
+    console.log("click!");
+    dispatch(handleClickedCard(card));
+  }
 
   useEffect(() => {
     dispatch(fetchCardsAndQuotes(TOTAL_QUOTES));
@@ -23,12 +31,14 @@ function App() {
 
   return (
     <>
-    {cards.map(card => {
-      return (
-        <Card key={card.id} cardData={card} onClick={handleCardClick}/>
-      )
-    })}
-     
+    <Header/>
+    <main>
+      {gameStatus === 'playing' ? (cards.map(card => {
+        return (
+          <Card key={card.id} cardData={card} onClick={handleCardClick}/>
+        )
+      })) : <Results/>}
+    </main>
     </>
   )
 }
