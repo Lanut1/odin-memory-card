@@ -2,38 +2,55 @@ import { useEffect } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardsAndQuotes } from './utils/api';
-import { getCardsData, getGameStatus } from './utils/selectors';
+import { getCardsData, getCardsLoadingStatus, getDisplaedCards, getGameStatus, getUnclickedCards } from './utils/selectors';
 import { Card } from './components/Card';
 import { AppDispatch } from './store';
-import { TOTAL_QUOTES } from './constants';
+import { CARDS_TO_DISPLAY, TOTAL_QUOTES } from './constants';
 import { handleClickedCard } from './store/gameSlice';
 import { UniqueCardData } from './types';
 import { Header } from './components/Header';
 import { Results } from './components/Results';
+// import { shuffleCards } from './utils/shuffleCards';
+import { getCardsToDisplay } from './utils/getCardsToDisplay';
+import { setCardsToDisplay } from './store/cardsSlice';
+import { Loading } from './components/Loading';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   const gameStatus = useSelector(getGameStatus);
+  const cards = useSelector(getCardsData);
+  const unclickedCards = useSelector(getUnclickedCards);
 
   const handleCardClick = (card: UniqueCardData) => {
     if (gameStatus !== 'playing') return;
 
-    console.log("click!");
     dispatch(handleClickedCard(card));
+    handleCardsShuffle();
   }
 
-  useEffect(() => {
-    dispatch(fetchCardsAndQuotes(TOTAL_QUOTES));
+  const handleCardsShuffle = () => {
+    // if (gameStatus !== 'playing') return;
+
+    const cardsToDisplay = getCardsToDisplay(cards, unclickedCards, CARDS_TO_DISPLAY);
+
+    if (cardsToDisplay) {
+      dispatch(setCardsToDisplay(cardsToDisplay));
+    } 
+  }
+
+  useEffect( () => {
+    dispatch(fetchCardsAndQuotes({totalCount: TOTAL_QUOTES, displayCount: CARDS_TO_DISPLAY}));
   }, [dispatch]);
 
-  const cards = useSelector(getCardsData);
+  const cardsToDisplay = useSelector(getDisplaedCards);
+  const cardsStatus = useSelector(getCardsLoadingStatus);
 
   return (
     <>
     <Header/>
     <main>
-      {gameStatus === 'playing' ? (cards.map(card => {
+      {cardsStatus !== 'succeeded' ? (<Loading/>) : gameStatus === 'playing' ? (cardsToDisplay.map(card => {
         return (
           <Card key={card.id} cardData={card} onClick={handleCardClick}/>
         )

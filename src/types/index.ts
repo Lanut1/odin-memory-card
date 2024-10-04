@@ -18,6 +18,7 @@ export type ErrorData = 'none' | string;
 
 export type CardsState = {
   cards: UniqueCardData[];
+  cardsToDisplay: UniqueCardData[];
   status: StatusData;
   error: ErrorData;
 }

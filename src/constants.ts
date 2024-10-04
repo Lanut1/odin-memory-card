@@ -1,5 +1,7 @@
 export const NUMBER_OF_CARDS = 10;
 
+export const CARDS_TO_DISPLAY = 5;
+
 export const TOTAL_QUOTES = 30;
 
 export const ERROR_MESSAGE = {
@@ -18,3 +20,5 @@ export const HEADER_SCORE = {
   CURRENT_SCORE: 'CURRENT SCORE:',
   BEST_SCORE: 'BEST SCORE:'
 }
+
+export const LOADING = 'LOADING...';
