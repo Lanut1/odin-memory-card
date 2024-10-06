@@ -1,7 +1,10 @@
 import React from "react";
-import logo from '../assets/logoSimpsons.svg'
 import { useSelector } from "react-redux";
+
+import logo from '../assets/logoSimpsons.svg';
+
 import { getBestScore, getCurrentScore } from "../utils/selectors";
+
 import { HEADER_SCORE } from "../constants";
 
 export const Header: React.FC = () => {

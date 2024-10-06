@@ -1,5 +1,5 @@
-// import { NUMBER_OF_CARDS } from "../constants";
 import { CardData, UniqueCardData } from "../types";
+
 import { v4 as uuidv4 } from 'uuid';
 
 export const filterUniqueCharacters = (cards: CardData[]): UniqueCardData[] => {
@@ -18,9 +18,7 @@ export const filterUniqueCharacters = (cards: CardData[]): UniqueCardData[] => {
         }
       );
     }
-
-    // if (uniqueCards.length === NUMBER_OF_CARDS) break;
   }
-  console.log(uniqueCards);
+  
   return uniqueCards;
 }

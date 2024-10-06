@@ -1,5 +1,7 @@
 import React from "react";
+
 import { LOADING } from "../constants";
+
 import loadingLogo from '../assets/loadingLogo.svg';
 
 export const Loading: React.FC = () => {

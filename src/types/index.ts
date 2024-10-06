@@ -25,6 +25,7 @@ export type CardsState = {
 
 export type CardProps = {
   cardData: UniqueCardData;
+  isRotated: boolean;
   onClick: (card: UniqueCardData) => void;
 }
 
@@ -34,5 +35,3 @@ export type GameState = {
   clickedCardsID: string[];
   status: 'playing' | 'win' | 'lose';
 }
-
-
